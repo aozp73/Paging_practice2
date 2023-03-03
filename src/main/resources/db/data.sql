@@ -23,8 +23,13 @@ insert into company_tb(user_id, company_name, company_scale, company_numb, compa
 
 insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(6, '공고제목1','공고내용1', 1, 1, 1, '프로젝트 유경험자', now());
 insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(6, '공고제목2','공고내용2', 3, 1, 2, '프로젝트 유경험자', now());
-insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(7, '공고제목3','공고내용3', 6, 2, 4, '관련 자격증 보유자', now());
-insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(7, '공고제목4','공고내용4', -1, 2, 0, '관련 자격증 보유자', now());
+insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(6, '공고제목3','공고내용3', 6, 2, 4, '관련 자격증 보유자', now());
+insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(7, '공고제목24','공고내용16', -1, 2, 0, '관련 자격증 보유자', now());
+insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(7, '공고제목25','공고내용16', -1, 2, 0, '관련 자격증 보유자', now());
+insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(7, '공고제목26','공고내용16', -1, 2, 0, '관련 자격증 보유자', now());
+insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(7, '공고제목27','공고내용16', -1, 2, 0, '관련 자격증 보유자', now());
+insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(7, '공고제목28','공고내용16', -1, 2, 0, '관련 자격증 보유자', now());
+insert into board_tb(user_id, title, content, career, job_type, education, favor, created_at) values(7, '공고제목28','공고내용16', -1, 2, 0, '관련 자격증 보유자', now());
 
 insert into apply_tb(user_id, board_id, state, created_at) values(1, 1, -1, now());
 insert into apply_tb(user_id, board_id, state, created_at) values(2, 1, 1, now());
@@ -53,5 +58,26 @@ insert into boardtech_tb(board_id, skill) values(1, 4);
 insert into boardtech_tb(board_id, skill) values(2, 6);
 insert into boardtech_tb(board_id, skill) values(2, 4);
 insert into boardtech_tb(board_id, skill) values(2, 7);
+
+insert into boardtech_tb(board_id, skill) values(3, 1);
+insert into boardtech_tb(board_id, skill) values(4, 3);
+insert into boardtech_tb(board_id, skill) values(5, 1);
+insert into boardtech_tb(board_id, skill) values(6, 3);
+insert into boardtech_tb(board_id, skill) values(7, 1);
+insert into boardtech_tb(board_id, skill) values(8, 3);
+insert into boardtech_tb(board_id, skill) values(9, 1);
+insert into boardtech_tb(board_id, skill) values(10, 3);
+insert into boardtech_tb(board_id, skill) values(11, 1);
+insert into boardtech_tb(board_id, skill) values(12, 3);
+insert into boardtech_tb(board_id, skill) values(13, 1);
+
+insert into boardtech_tb(board_id, skill) values(14, 1);
+insert into boardtech_tb(board_id, skill) values(15, 1);
+insert into boardtech_tb(board_id, skill) values(16, 1);
+insert into boardtech_tb(board_id, skill) values(17, 1);
+insert into boardtech_tb(board_id, skill) values(18, 1);
+insert into boardtech_tb(board_id, skill) values(19, 1);
+insert into boardtech_tb(board_id, skill) values(20, 1);
+insert into boardtech_tb(board_id, skill) values(21, 1);
 
 commit; 

@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
     <%@ include file="../layout/header.jsp" %>
-        <input id="checkKeyword" type="hidden" name="" value="${check}">
+        <input id="checkKeyword" type="hidden" name="" value="${pagingDto.keyword}">
+
 
 
         <div class="container my-3 py-3 px-3">
@@ -23,7 +24,7 @@
             <div class="p-3">
                 <div class="row gx-3">
 
-                    <c:forEach items="${boardList}" var="board">
+                    <c:forEach items="${pagingDto.boardListDtos}" var="board">
                         <div class="col-md-3 py-2">
                             <a href="/board/${board.id}" class="no_under_line_link">
                                 <div id="boardImage-${board.id}" class="card col-lg-12"
@@ -58,26 +59,61 @@
 
         <!-- 페이징 -->
 
-        <div class="d-flex justify-content-center mt-5" style="margin-bottom: 60px;">
-            <nav aria-label="Page navigation example">
+            <div class="d-flex justify-content-center">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item"><a class="page-link" href="#">6</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+
+                    <li class='page-item ${pagingDto.first ? "disabled" : ""}'><a class="page-link"
+                            href="javascript:void(0);" onclick="callPrev();">Prev</a></li>
+
+                    <c:forEach var="num" begin="${pagingDto.startPageNum}" end="${pagingDto.lastPageNum}">
+  
+                            <li class='page-item'><a class='page-link' href="/board/list?page=${num-1}&keyword=${pagingDto.keyword}">${num}</a></li>
+             
+                            <%-- <li class='page-item'><a class='page-link' href="/board/list?page=${num-1}">${num}</a></li> --%>
+                  </c:forEach>
+
+                    <li class='page-item ${pagingDto.last ? "disabled" : ""}'><a class="page-link"
+                            href="javascript:void(0);" onclick="callNext();">Next</a></li>
+
                 </ul>
-            </nav>
-        </div>
+            </div>
         </div>
 
         <script>
+            // alert(${pagingDto.keyword});
+            // alert()
+
+            function callPrev() {
+                let keyword = $("#checkKeyword").val();
+                // let keyword = $("#checkKeyword").val();
+                // alert(keyword)
+                let currentPage = `${pagingDto.currentPage - 1}`
+                // alert(currentPage)
+                if (keyword) {
+                    location.href = "/board/list?page=" + currentPage + "&keyword=" + keyword;
+                } else {
+                    location.href = "/board/list?page=" + currentPage;
+                }
+            }
+
+            function callNext() {
+                
+                let keyword = $("#checkKeyword").val();
+                // alert(keyword)
+                let currentPage = `${pagingDto.currentPage + 1}`
+                    //    alert(currentPage)
+                if (keyword) {
+                    location.href = "/board/list?page=" + currentPage + "&keyword=" + keyword;
+                } else {
+                    location.href = "/board/list?page=" + currentPage;
+                }
+            }
+
+
 
             function selectBoxCheck() {
                 let check = $("#checkKeyword").val()
+                // alert(check)
                 if (check == "lang") {
                     $("#selectBox").val("/board/list?keyword=lang").prop("selected",true);
                 }

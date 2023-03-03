@@ -271,6 +271,20 @@
                 $("#" + id).attr("checked", true);
             });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             function updateBoard() {
                 let boardId = `${boardDetail.id}`
                 let title = $("#title").val();
@@ -282,6 +296,8 @@
                 let userId = $("#userId").val();
 
                 let checkedValues = [];
+
+                
                 $('input[name="lang"]:checked').each(function () {
                     checkedValues.push($(this).val());
                 });

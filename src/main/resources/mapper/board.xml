@@ -27,12 +27,88 @@
         on bt.user_id=ut.id
     </select>
 
+	<select id="paging" resultType="shop.mtcoding.jobara.board.dto.BoardResp$PagingDto">
+      <choose>
+            <when test="keyword != null and keyword.equals('lang')">
+            SELECT count(*) total_count,  CEILING( count(*) / #{row} ) total_page, #{page} current_page,
+            case when #{page} = 0 then 1
+                else 0 
+                end first,
+            case when #{page} = CEILING( count(*) / #{row} ) - 1 then 1
+                else 0 
+                end last
+
+            FROM 
+                (select bt.id, bt.title, ct.company_name, ut.id user_id, ut.profile from
+
+                (   select * from board_tb 
+                    where board_tb.id in (
+                    SELECT distinct bt.board_id 
+                    FROM BOARDTECH_TB bt
+                    inner join employeetech_tb dt
+                    where bt.skill in 
+                    ( select dt.skill where dt.user_id = #{userId}))  ) bt
+
+                inner join company_tb ct
+                on bt.user_id = ct.user_id
+                
+                inner join user_tb ut
+                on bt.user_id=ut.id)
+            </when>
+
+            <otherwise>
+            		SELECT count(*) total_count,  CEILING( count(*) / #{row} ) total_page, #{page} current_page,
+                    case when #{page} = 0 then 1
+                        else 0 
+                        end first,
+                    case when #{page} = CEILING( count(*) / #{row} ) - 1 then 1
+                        else 0 
+                        end last
+                    FROM board_tb
+            </otherwise>
+    </choose>
+
+
+
+
+	</select>
+
     <select id="findAllWithCompany" resultType="shop.mtcoding.jobara.board.dto.BoardResp$BoardListRespDto">
-        SELECT bt.id, bt.title, ct.company_name, ut.id user_id, ut.profile FROM BOARD_TB bt
-        inner join company_tb ct
-        on bt.user_id = ct.user_id
-        inner join user_tb ut
-        on bt.user_id=ut.id
+      <choose>
+            <when test="keyword != null and keyword.equals('lang')">
+                select bt.id, bt.title, ct.company_name, ut.id user_id, ut.profile from
+
+                (   select * from board_tb 
+                    where board_tb.id in (
+                    SELECT distinct bt.board_id 
+                    FROM BOARDTECH_TB bt
+                    inner join employeetech_tb dt
+                    where bt.skill in 
+                    ( select dt.skill where dt.user_id = #{userId}))  ) bt
+
+                inner join company_tb ct
+                on bt.user_id = ct.user_id
+                
+                inner join user_tb ut
+                on bt.user_id=ut.id
+                ORDER BY bt.id 
+                OFFSET #{startNum} ROWS 
+                FETCH NEXT #{row} ROWS ONLY
+            </when>
+
+            <otherwise>
+                    SELECT bt.id, bt.title, ct.company_name, ut.id user_id, ut.profile FROM BOARD_TB bt
+                    inner join company_tb ct
+                    on bt.user_id = ct.user_id
+                    inner join user_tb ut
+                    on bt.user_id=ut.id
+                    ORDER BY bt.id 
+                    OFFSET #{startNum} ROWS 
+                    FETCH NEXT #{row} ROWS ONLY
+            </otherwise>
+    </choose>
+
+
     </select>
 
     <select id="findAllWithCompanyToMain" resultType="shop.mtcoding.jobara.board.dto.BoardResp$BoardMainRespDto">

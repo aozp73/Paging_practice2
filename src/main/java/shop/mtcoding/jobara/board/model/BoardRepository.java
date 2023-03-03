@@ -3,6 +3,7 @@ package shop.mtcoding.jobara.board.model;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import shop.mtcoding.jobara.board.dto.BoardReq.BoardInsertSkillReqDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.BoardDetailRespDto;
@@ -10,6 +11,7 @@ import shop.mtcoding.jobara.board.dto.BoardResp.BoardListRespDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.BoardMainRespDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.BoardUpdateRespDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.MyBoardListRespDto;
+import shop.mtcoding.jobara.board.dto.BoardResp.PagingDto;
 
 @Mapper
 public interface BoardRepository {
@@ -18,7 +20,11 @@ public interface BoardRepository {
 
     public BoardDetailRespDto findByIdWithCompany(int boardId);
 
-    public List<BoardListRespDto> findAllWithCompany();
+    public List<BoardListRespDto> findAllWithCompany(@Param("startNum") int startNum, @Param("keyword") String keyword,
+            @Param("row") int row, @Param("userId") int userId);
+
+    public PagingDto paging(@Param("page") int page, @Param("keyword") String keyword, @Param("row") int row,
+            @Param("userId") int userId);
 
     public List<BoardListRespDto> findAllByUserIdForLangMatching(int userId);
 

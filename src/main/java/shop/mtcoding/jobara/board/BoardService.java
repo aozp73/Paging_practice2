@@ -15,7 +15,9 @@ import shop.mtcoding.jobara.board.dto.BoardResp.BoardDetailRespDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.BoardListRespDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.BoardMainRespDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.BoardUpdateRespDto;
+import shop.mtcoding.jobara.board.dto.BoardResp.MainDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.MyBoardListRespDto;
+import shop.mtcoding.jobara.board.dto.BoardResp.PagingDto;
 import shop.mtcoding.jobara.board.model.Board;
 import shop.mtcoding.jobara.board.model.BoardRepository;
 import shop.mtcoding.jobara.board.model.BoardTechRepository;
@@ -32,6 +34,37 @@ public class BoardService {
 
     @Autowired
     BoardTechRepository boardTechRepository;
+
+    public PagingDto 게시글목록보기(Integer page, String keyword) {
+
+        if (page == null) {
+            page = 0;
+        }
+
+        int startNum = page * PagingDto.ROW;
+
+        // System.out.println("==========");
+        // System.out.println("keyword : " + keyword);
+        // System.out.println("==========");
+
+        List<BoardListRespDto> boardsList = boardRepository.findAllWithCompany(startNum, keyword, PagingDto.ROW, 1);
+        PagingDto pagingDto = boardRepository.paging(page, keyword, PagingDto.ROW, 1);
+
+        if (boardsList.size() == 0)
+            pagingDto.setNotResult(true);
+        pagingDto.makeBlockInfo(keyword);
+        pagingDto.setBoardListDtos(boardsList);
+
+        return pagingDto;
+    }
+
+    // @Transactional(readOnly = true)
+    // public List<BoardListRespDto> getList() {
+    // List<BoardListRespDto> boardListPS;
+
+    // boardListPS = boardRepository.findAllWithCompany();
+    // return boardListPS;
+    // }
 
     @Transactional(readOnly = true)
     public List<BoardMainRespDto> getListToMain() {
@@ -66,15 +99,6 @@ public class BoardService {
         boardDetailPS.setJobTypeString(jobType);
 
         return boardDetailPS;
-    }
-
-    @Transactional(readOnly = true)
-    public List<BoardListRespDto> getList() {
-        List<BoardListRespDto> boardListPS;
-
-        boardListPS = boardRepository.findAllWithCompany();
-        return boardListPS;
-
     }
 
     @Transactional(readOnly = true)

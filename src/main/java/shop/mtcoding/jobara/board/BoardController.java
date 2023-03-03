@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import shop.mtcoding.jobara.board.dto.BoardReq.BoardInsertReqDto;
 import shop.mtcoding.jobara.board.dto.BoardReq.BoardUpdateReqDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.BoardDetailRespDto;
-import shop.mtcoding.jobara.board.dto.BoardResp.BoardListRespDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.BoardMainRespDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.BoardUpdateRespDto;
 import shop.mtcoding.jobara.board.dto.BoardResp.MyBoardListRespDto;
+import shop.mtcoding.jobara.board.dto.BoardResp.PagingDto;
 import shop.mtcoding.jobara.common.dto.ResponseDto;
 import shop.mtcoding.jobara.common.ex.CustomException;
 import shop.mtcoding.jobara.common.util.Verify;
@@ -55,22 +55,29 @@ public class BoardController {
     }
 
     @GetMapping("/board/list")
-    public String list(Model model, String keyword) {
+    public String list(Model model, Integer page, String keyword) {
+        System.out.println("=========================");
+        System.out.println("테스트 페이지 : " + page);
+        System.out.println("테스트 키워드: " + keyword);
+        PagingDto pagingDto = boardService.게시글목록보기(page, keyword);
+        model.addAttribute("pagingDto", pagingDto);
 
-        if (keyword == null) {
-            keyword = "";
-        }
-        UserVo principalCheck = (UserVo) session.getAttribute("principal");
+        // if (keyword == null) {
+        // keyword = "";
+        // }
+        // UserVo principalCheck = (UserVo) session.getAttribute("principal");
 
-        if (keyword.equals("lang") && principalCheck.getRole().equals("employee")) {
-            List<BoardListRespDto> boardListPS = boardService.getLangMatchList(principalCheck.getId());
-            model.addAttribute("boardList", boardListPS);
-            model.addAttribute("check", "lang");
-        } else {
-            List<BoardListRespDto> boardListPS = boardService.getList();
-            model.addAttribute("boardList", boardListPS);
-        }
+        // if (keyword.equals("lang") && principalCheck.getRole().equals("employee")) {
+        // List<BoardListRespDto> boardListPS =
+        // boardService.getLangMatchList(principalCheck.getId());
+        // model.addAttribute("boardList", boardListPS);
+        // model.addAttribute("check", "lang");
+        // } else {
+        // List<BoardListRespDto> boardListPS = boardService.getList();
+        // model.addAttribute("boardList", boardListPS);
+        // }
 
+        System.out.println("view 전 테스트 : " + pagingDto.getKeyword());
         return "board/list";
     }
 
